@@ -16,12 +16,12 @@
         label="时间"
         prop="time"
         :rules="[
-      { required: true, message: '时间不能为空'},
-    ]"
+      { required: true, message: '时间不能为空'}]"
       >
         <el-date-picker
           v-model="appointmentDto.time"
           type="datetime"
+          :picker-options="{selectableRange: '09:00:00 - 19:59:00'}"
           placeholder="选择日期时间">
         </el-date-picker>
       </el-form-item>
@@ -58,14 +58,12 @@
       resetForm (formName) {
         this.$refs[formName].resetFields()
       },
-      async addAppointment (formName) {
-        let _this = this;
+      addAppointment (formName) {
         axios.put('http://localhost:8099/expressPackage/appointment',{id: this.appointmentDto.id, time: this.appointmentDto.time})
-          .then(function (response) {
-            // handle success
+          .then((response)=> {
             if (response.status === 200) {
-              _this.$message.success('提交成功')
-              _this.$refs[formName].resetFields()
+              this.$message.success('提交成功')
+              this.$refs[formName].resetFields()
             }
           })
       }
